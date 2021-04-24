@@ -3,7 +3,7 @@ import 'package:flutter_app_forms/src/bloc/provider.dart';
 import 'package:flutter_app_forms/src/providers/usuario_provider.dart';
 import 'package:flutter_app_forms/src/utils/utils.dart';
 
-class LoginPage extends StatelessWidget {
+class RegistroPage extends StatelessWidget {
   final usuarioProvider = new UsuarioProvider();
 
   @override
@@ -45,10 +45,7 @@ class LoginPage extends StatelessWidget {
                 ]),
             child: Column(
               children: <Widget>[
-                Text(
-                  'Ingresar datos',
-                  style: TextStyle(fontSize: 20.0),
-                ),
+                Text('Crear cuenta', style: TextStyle(fontSize: 20.0)),
                 SizedBox(height: 60.0),
                 _crearEmail(bloc),
                 SizedBox(height: 30.0),
@@ -59,9 +56,8 @@ class LoginPage extends StatelessWidget {
             ),
           ),
           TextButton(
-            child: Text('Crear cuenta'),
-            onPressed: () =>
-                Navigator.pushReplacementNamed(context, 'registro'),
+            child: Text('¿Ya tienes cuenta? Login'),
+            onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
           ),
           SizedBox(height: 100.0)
         ],
@@ -78,7 +74,7 @@ class LoginPage extends StatelessWidget {
           child: TextField(
             keyboardType: TextInputType.emailAddress,
             decoration: InputDecoration(
-                icon: Icon(Icons.email, color: Colors.deepPurple),
+                icon: Icon(Icons.alternate_email, color: Colors.deepPurple),
                 hintText: 'ejemplo@correo.com',
                 labelText: 'Correo electrónico',
                 counterText: snapshot.data,
@@ -99,7 +95,7 @@ class LoginPage extends StatelessWidget {
           child: TextField(
             obscureText: true,
             decoration: InputDecoration(
-                icon: Icon(Icons.lock, color: Colors.deepPurple),
+                icon: Icon(Icons.lock_outline, color: Colors.deepPurple),
                 labelText: 'Contraseña',
                 counterText: snapshot.data,
                 errorText: snapshot.error),
@@ -122,7 +118,7 @@ class LoginPage extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 13.0),
             child: Text(
-              'Ingresar',
+              'Registrarse',
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
           ),
@@ -133,20 +129,22 @@ class LoginPage extends StatelessWidget {
             elevation: 0.0,
             primary: Colors.deepPurple,
           ),
-          onPressed: snapshot.hasData ? () => _login(bloc, context) : null,
+          onPressed: snapshot.hasData ? () => _register(bloc, context) : null,
         );
       },
     );
   }
 
-  _login(LoginBloc bloc, BuildContext context) async {
-    Map info = await usuarioProvider.login(bloc.email, bloc.password);
+  _register(LoginBloc bloc, BuildContext context) async {
+    final info = await usuarioProvider.nuevoUsuario(bloc.email, bloc.password);
 
     if (info['ok']) {
       Navigator.pushReplacementNamed(context, 'home');
     } else {
       mostrarAlerta(context, info['mensaje']);
     }
+
+    // Navigator.pushReplacementNamed(context, 'home');
   }
 
   Widget _crearFondo(BuildContext context) {
@@ -156,22 +154,18 @@ class LoginPage extends StatelessWidget {
       height: size.height * 0.4,
       width: double.infinity,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: <Color>[
-            Color.fromRGBO(93, 53, 156, 1.0),
-            Color.fromRGBO(93, 60, 178, 1.0),
-          ],
-        ),
-      ),
+          gradient: LinearGradient(colors: <Color>[
+        Color.fromRGBO(63, 63, 156, 1.0),
+        Color.fromRGBO(90, 70, 178, 1.0)
+      ])),
     );
 
     final circulo = Container(
       width: 100.0,
       height: 100.0,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100.0),
-        color: Color.fromRGBO(255, 255, 255, 0.05),
-      ),
+          borderRadius: BorderRadius.circular(100.0),
+          color: Color.fromRGBO(255, 255, 255, 0.05)),
     );
 
     return Stack(
@@ -186,12 +180,10 @@ class LoginPage extends StatelessWidget {
           padding: EdgeInsets.only(top: 80.0),
           child: Column(
             children: <Widget>[
-              Icon(Icons.person_pin, color: Colors.white, size: 100.0),
+              Icon(Icons.person_pin_circle, color: Colors.white, size: 100.0),
               SizedBox(height: 10.0, width: double.infinity),
-              Text(
-                'Hola bienvenido',
-                style: TextStyle(color: Colors.white, fontSize: 25.0),
-              )
+              Text('Fernando Herrera',
+                  style: TextStyle(color: Colors.white, fontSize: 25.0))
             ],
           ),
         )

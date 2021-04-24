@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Permiso de acceso al carrete</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Permiso de acceso a la cámara</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Permiso de acceso al microfono</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
